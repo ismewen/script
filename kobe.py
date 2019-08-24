@@ -51,7 +51,7 @@ class Kobe(object):
 
     def _check(self):
         if not self.package_classify:
-            raise Exception("%s 不是一个正确的产品名，如果你确定是一个上线的产品，请联系ethan解决")
+            raise Exception("%s not package classify")
 
     def get_commands(self):
         actions = self.action_list if self.action == "all" else [self.action]
