@@ -105,7 +105,7 @@ class Kobe(object):
         for index, value in mapping.items():
             print("%s:%s" % (index, value))
         if self.input:
-            choice = input("请输入你要执行命令的序号:")
+            choice = input("please input your choice:")
             command = mapping.get(int(choice))
             subprocess.call(command, shell=True)
 
