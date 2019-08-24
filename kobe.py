@@ -1,3 +1,4 @@
+import argparse
 import subprocess
 
 
@@ -12,15 +13,15 @@ class Kobe(object):
 
     action_list = [
         "get",
+        "exec",
         "describe",
         "edit",
-        "exec"
     ]
 
     package_classify_mapping = {
-        "db": ["mongodb", "mysql", ""],
-        "cockroach-p": ["cockroach"],
-        "cms": ["wordpress", "megento"]
+        "db": ["mongodb", "mysql", "mariadb"],
+        "cockroach-p": ["cockroachdb"],
+        "cms": ["wordpress", "magento", "drupal"]
     }
 
     @property
@@ -51,7 +52,7 @@ class Kobe(object):
 
     def _check(self):
         if not self.package_classify:
-            raise Exception("%s not package classify")
+            raise Exception("%s not a valid package classification,please contact ethan to fix this")
 
     def get_commands(self):
         actions = self.action_list if self.action == "all" else [self.action]
@@ -106,18 +107,17 @@ class Kobe(object):
             print("%s:%s" % (index, value))
         if self.input:
             choice = input("please input your choice:")
+            if choice == "exit":
+                return
             command = mapping.get(int(choice))
             subprocess.call(command, shell=True)
 
 
-kobe = Kobe(stack_name="mysql-1233", action="all", input=1)
-kobe.show()
-
-# if __name__ == "__main__":
-#     parser = argparse.ArgumentParser()
-#     parser.add_argument("stack_name", help="stack name")
-#     parser.add_argument("-a", "--action", choices=['all', 'get', "describe", "edit", "exec"])
-#     parser.add_argument("-s", "--show", help="0 just show ，1 carry out", default=1)
-#     args = parser.parse_args()
-#     print(args.action)
-#     kobe = Kobe(stack_name=args.stack_name, action=args.action, show=show)
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser()
+    parser.add_argument("stack_name", help="stack name")
+    parser.add_argument("-a", "--action", choices=['all', 'get', "describe", "edit", "exec"], default="all")
+    parser.add_argument("-input", "--input", help="", default=1)
+    args = parser.parse_args()
+    kobe = Kobe(stack_name=args.stack_name, action=args.action, input=args.input)
+    kobe.show()
