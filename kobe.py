@@ -112,7 +112,7 @@ class Kobe(object):
             choice = choice.strip()
             if choice == "exit":
                 return
-            if choice.startwith("kubectl"):
+            if choice.startswith("kubectl"):
                 subprocess.call(choice)
             else:
                 command = mapping.get(int(choice))
