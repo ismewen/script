@@ -41,7 +41,6 @@ class Kobe(object):
 
     @property
     def package_classify(self):
-        print(self.package_classify_mapping, self.package_type)
         for classify, package_types in self.package_classify_mapping.items():
             if self.package_type in package_types:
                 return classify
@@ -110,10 +109,14 @@ class Kobe(object):
             print("%s:%s" % (index, value))
         if self.input:
             choice = input("please input your choice:")
+            choice = choice.strip()
             if choice == "exit":
                 return
-            command = mapping.get(int(choice))
-            subprocess.call(command, shell=True)
+            if choice.startwith("kubectl"):
+                subprocess.call(choice)
+            else:
+                command = mapping.get(int(choice))
+                subprocess.call(command, shell=True)
 
 
 if __name__ == "__main__":
