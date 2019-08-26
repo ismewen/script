@@ -20,13 +20,16 @@ class Kobe(object):
 
     package_classify_mapping = {
         "db": ["mongodb", "mysql", "mariadb"],
-        "cockroach-p": ["cockroachdb"],
+        "cockroach-p": ["cockroach"],
         "cms": ["wordpress", "magento", "drupal"]
     }
 
     @property
     def package_type(self):
-        return self.stack_name.split("-")[0]
+        package_type = self.stack_name.split("-")[0]
+        if package_type == "cockroachdb":
+            package_type = "cockroach"
+        return package_type
 
     @property
     def agent_container_name(self):
