@@ -6,7 +6,7 @@ class Kobe(object):
     k8s_objects = [
         "pods",
         "ingress",
-        "secret",
+        "secrets",
         "certificate",
         "statefulset",
     ]
