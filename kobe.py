@@ -47,7 +47,7 @@ class Kobe(object):
         return None
 
     def __init__(self, stack_name, action, input):
-        self.stack_name = stack_name
+        self.stack_name = stack_name.lower()
         self.action = action
         self.input = input
         self._check()
