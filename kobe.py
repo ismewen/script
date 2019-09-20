@@ -19,7 +19,7 @@ class Kobe(object):
     ]
 
     package_classify_mapping = {
-        "db": ["mongodb", "mysql", "mariadb"],
+        "db": ["mongodb", "mysql", "mariadb", "postgresql"],
         "cockroach-p": ["cockroach"],
         "cms": ["wordpress", "magento", "drupal"]
     }
