@@ -9,6 +9,8 @@ class Kobe(object):
         "secrets",
         "certificate",
         "statefulset",
+        "pv",
+        "pvc",
     ]
 
     action_list = [
