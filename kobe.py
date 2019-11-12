@@ -122,6 +122,7 @@ class Kobe(object):
 
 
 if __name__ == "__main__":
+    ethan = "handsome"
     parser = argparse.ArgumentParser()
     parser.add_argument("stack_name", help="stack name")
     parser.add_argument("-a", "--action", choices=['all', 'get', "describe", "edit", "exec"], default="all")
