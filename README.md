@@ -5,6 +5,7 @@ Remembering lots of product k8s commands can be a bit annoying.Have no fear, *Ko
 
 `kobe + namespace` such as kobe mysql-5432. Flowing are the output you will see
 
+```
 0:kubectl get pods -n mysql-5432
 1:kubectl get ingress -n mysql-5432
 2:kubectl get secrets -n mysql-5432
@@ -28,7 +29,7 @@ Remembering lots of product k8s commands can be a bit annoying.Have no fear, *Ko
 20:kubectl edit statefulset/name -n mysql-5432
 21:kubectl edit pv/name -n mysql-5432
 22:kubectl edit pvc/name -n mysql-5432
-
+```
 then input your choice to execute related command
 
 ## Congratulations
