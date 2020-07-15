@@ -1,6 +1,8 @@
 import argparse
 import subprocess
 
+from config import container_name_template_config
+
 
 class Kobe(object):
     k8s_objects = [
@@ -118,15 +120,82 @@ class Kobe(object):
                 subprocess.call(choice)
             else:
                 command = mapping.get(int(choice))
-                subprocess.call(command, shell=True)
+                s
+
+
+class JorDan(object):
+    k8s_objects = [
+        "pods",
+        "ingress",
+        "secrets",
+        "certificate",
+        "statefulset",
+    ]
+
+    action_list = [
+        "get",
+        "exec",
+        "describe",
+        "edit",
+    ]
+
+    def __init__(self, namespace):
+        self.namespace = namespace
+
+    def get_container_def_info(self):
+        app_name = self.namespace.split("-")[0]
+        template = container_name_template_config.get(app_name)
+        return {x: y.format(self.namespace) for x, y in template.items()}
+
+    @property
+    def agent_name(self):
+        return self.get_container_def_info().get("agent_name")
+
+    @property
+    def app_name(self):
+        return self.get_container_def_info().get("app_name")
+
+    @property
+    def sts_name(self):
+        return self.get_container_def_info().get("sts_name")
+
+    @property
+    def pod_name(self):
+        return self.get_container_def_info().get("pod_name")
+
+    def commands(self):
+        commands = [
+            "kubectl get pods -n %s" % self.namespace,
+            "kubectl get ingress -n %s" % self.namespace,
+            "kubectl get secrets -n %s" % self.namespace,
+            "kubectl get sts -n %s" % self.namespace,
+            "kubectl exec -it {pod_name} -c {container_name} -n {namespace}".format(
+                pod_name=self.pod_name, container_name=self.app_name, namespace=self.namespace),
+            "kubectl exec -it {pod_name} -c {container_name} -n {namespace}".format(
+                pod_name=self.pod_name, container_name=self.agent_name, namespace=self.namespace),
+            "kubectl describe sts/{sts_name} -n {namespace}".format(sts_name=self.sts_name, namespace=self.namespace),
+            "kubectl describe pods/{pod_name} -n {namespace}".format(pod_name=self.pod_name, namespace=self.namespace),
+            "kubectl edit sts/{sts_name} -n {namespace}".format(sts_name=self.sts_name, namespace=self.namespace),
+            "kubectl edit pods/{pod_name} -n {namespace}".format(pod_name=self.pod_name, namespace=self.namespace),
+        ]
+        commands_mapping = {str(index): value for index, value in enumerate(commands)}
+        for index, command in commands_mapping.items():
+            print("%s:%s" % (index, command))
+        choice = input("please input your choice:")
+        command = commands_mapping.get(str(choice))
+        if not command:
+            raise Exception("Invalid Choice")
+        subprocess.call(command, shell=True)
 
 
 if __name__ == "__main__":
     ethan = "handsome"
     parser = argparse.ArgumentParser()
-    parser.add_argument("stack_name", help="stack name")
-    parser.add_argument("-a", "--action", choices=['all', 'get', "describe", "edit", "exec"], default="all")
-    parser.add_argument("-input", "--input", help="", default=1)
+    parser.add_argument("namespace", help="stack name")
+    # parser.add_argument("-a", "--action", choices=['all', 'get', "describe", "edit", "exec"], default="all")
+    # parser.add_argument("-input", "--input", help="", default=1)
     args = parser.parse_args()
-    kobe = Kobe(stack_name=args.stack_name, action=args.action, input=args.input)
-    kobe.show()
+    # kobe = Kobe(stack_name=args.namespace, action=args.action, input=args.input)
+    # kobe.show()
+    jordan = JorDan(args.namespace)
+    jordan.commands()
