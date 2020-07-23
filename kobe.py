@@ -169,9 +169,9 @@ class JorDan(object):
             "kubectl get ingress -n %s" % self.namespace,
             "kubectl get secrets -n %s" % self.namespace,
             "kubectl get sts -n %s" % self.namespace,
-            "kubectl exec -it {pod_name} -c {container_name} -n {namespace}".format(
+            "kubectl exec -it {pod_name} -c {container_name} bash -n {namespace}".format(
                 pod_name=self.pod_name, container_name=self.app_name, namespace=self.namespace),
-            "kubectl exec -it {pod_name} -c {container_name} -n {namespace}".format(
+            "kubectl exec -it {pod_name} -c {container_name} bash -n {namespace}".format(
                 pod_name=self.pod_name, container_name=self.agent_name, namespace=self.namespace),
             "kubectl describe sts/{sts_name} -n {namespace}".format(sts_name=self.sts_name, namespace=self.namespace),
             "kubectl describe pods/{pod_name} -n {namespace}".format(pod_name=self.pod_name, namespace=self.namespace),
